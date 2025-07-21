@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://pj86rd0nn4vh"]
+[gd_scene load_steps=5 format=3 uid="uid://pj86rd0nn4vh"]
 
 [ext_resource type="PackedScene" uid="uid://x72n4eg4ioe0" path="res://Scenes/Player.tscn" id="1_player_scene"]
-[ext_resource type="PackedScene" uid="uid://d00dbeef_slime_king" path="res://Scenes/Bosses/SlimeKing.tscn" id="2_slime_king_scene"]
+[ext_resource type="PackedScene" uid="uid://crjr00su1parb" path="res://Scenes/Bosses/SlimeKing.tscn" id="2_slime_king_scene"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_top"]
 size = Vector2(1920, 40)
@@ -12,10 +12,10 @@ size = Vector2(40, 1080)
 [node name="Boss_Battle_1" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_player_scene")]
-position = Vector2(960, 900)
+position = Vector2(102, 939)
 
 [node name="SlimeKing" parent="." instance=ExtResource("2_slime_king_scene")]
-position = Vector2(960, 200)
+position = Vector2(1766, 912)
 
 [node name="Wall_Top" type="StaticBody2D" parent="."]
 position = Vector2(960, 20)
