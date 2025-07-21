@@ -21,4 +21,4 @@ renderer/rendering_method.mobile="gl_compatibility"
 
 [autoload]
 
-Game_Manager="res://Game_Manager.gd"
+Game_Manager="res://Scripts/Game_Manager.gd"
