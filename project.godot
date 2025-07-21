@@ -15,14 +15,14 @@ run/main_scene="uid://d00dbeef"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Game_Manager="*res://Scripts/Game_Manager.gd"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-
-[autoload]
-
-Game_Manager="*res://Scripts/Game_Manager.gd"
 
 [rendering]
 
