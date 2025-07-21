@@ -11,14 +11,15 @@ config_version=5
 [application]
 
 config/name="Bulgasal"
+run/main_scene="uid://d00dbeef"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Game_Manager="*res://Scripts/Game_Manager.gd"
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-
-[autoload]
-
-Game_Manager="res://Scripts/Game_Manager.gd"
