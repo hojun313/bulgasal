@@ -1,23 +1,18 @@
-extends CharacterBody2D
+extends BaseBoss
 
 const MIN_JUMP_VERTICAL_VELOCITY = -1100.0 # 점프 시 최소 수직 속도
 const MAX_JUMP_VERTICAL_VELOCITY = -500.0 # 점프 시 최대 수직 속도
 const JUMP_HORIZONTAL_VELOCITY = 400.0 # 점프 시 수평 속도
 
-# 체력 관련
-@export var max_health = 100
-var current_health = 100
-
-var player = null
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 @onready var jump_timer = Timer.new()
 
-func _ready():
+func boss_ready():
+	# SlimeKing 전용 초기화
+	boss_name = "SlimeKing"
+	max_health = 100
+	damage = 25
+	
 	randomize() # Initialize random number generator
-	current_health = max_health # 체력 초기화
-
-	player = get_tree().get_first_node_in_group("player")
 
 	add_child(jump_timer)
 	jump_timer.wait_time = 3.0
@@ -25,12 +20,7 @@ func _ready():
 	jump_timer.timeout.connect(_on_jump_timer_timeout)
 	jump_timer.start() # Explicitly start the timer
 
-func _physics_process(delta):
-	# Apply gravity
-	if not is_on_floor():
-		velocity.y += gravity * delta
-	
-	move_and_slide()
+func boss_physics_process(delta: float):
 
 	var collided_with_side_wall = false
 	for i in get_slide_collision_count():
@@ -58,13 +48,10 @@ func _on_jump_timer_timeout():
 	else:
 		pass # Cannot jump condition (silent)
 
-func take_damage(damage_amount):
-	current_health -= damage_amount
-	print("SlimeKing took ", damage_amount, " damage! Current health: ", current_health)
-	
-	if current_health <= 0:
-		die()
+func on_damage_taken(damage_amount: int):
+	# SlimeKing이 데미지를 받을 때의 반응
+	current_state = BossState.IDLE # 데미지 받고 바로 다시 행동
 
-func die():
-	print("SlimeKing has been defeated!")
-	queue_free() # 보스 제거
+func on_death():
+	# SlimeKing이 죽을 때의 처리
+	jump_timer.stop()
