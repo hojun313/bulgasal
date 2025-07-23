@@ -10,6 +10,9 @@ var current_health: int
 var player: Node = null
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+# 히트박스
+var hitbox_area: Area2D
+
 # 보스 상태
 enum BossState {
 	IDLE,
@@ -23,6 +26,12 @@ var current_state: BossState = BossState.IDLE
 func _ready():
 	current_health = max_health
 	player = get_tree().get_first_node_in_group("player")
+	
+	# 보스를 "boss" 그룹에 추가
+	add_to_group("boss")
+	
+	# 히트박스 생성
+	create_hitbox()
 	
 	# 자식 클래스에서 오버라이드할 수 있도록 호출
 	boss_ready()
@@ -82,6 +91,19 @@ func is_player_to_right() -> bool:
 	if player:
 		return player.global_position.x > global_position.x
 	return false
+
+# 히트박스 생성
+func create_hitbox():
+	hitbox_area = Area2D.new()
+	hitbox_area.add_to_group("boss_hitbox")
+	add_child(hitbox_area)
+	
+	# 기본 히트박스 콜리전 생성
+	var collision_shape = CollisionShape2D.new()
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(64, 64) # 기본 크기, 자식 클래스에서 수정 가능
+	collision_shape.shape = shape
+	hitbox_area.add_child(collision_shape)
 
 # 자식 클래스에서 오버라이드할 가상 함수들
 func boss_ready():

@@ -13,8 +13,8 @@ func _ready():
 	timer.timeout.connect(_on_timeout)
 	timer.start()
 	
-	# 적과의 충돌 감지
-	body_entered.connect(_on_body_entered)
+	# 적과의 충돌 감지 (Area2D와 Area2D 간 충돌)
+	area_entered.connect(_on_area_entered)
 
 func _physics_process(delta):
 	position += direction * speed * delta
@@ -25,8 +25,10 @@ func _on_timeout():
 func set_direction(dir: Vector2):
 	direction = dir.normalized()
 
-func _on_body_entered(body):
-	# 보스나 적에게 충돌했을 때
-	if body.has_method("take_damage"):
-		body.take_damage(damage)
-		queue_free() # 총알 삭제
+func _on_area_entered(area):
+	# 보스의 히트박스와 충돌했을 때
+	if area.is_in_group("boss_hitbox"):
+		var boss = area.get_parent()
+		if boss.has_method("take_damage"):
+			boss.take_damage(damage)
+			queue_free() # 총알 삭제
