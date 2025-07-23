@@ -4,6 +4,10 @@ const MIN_JUMP_VERTICAL_VELOCITY = -1100.0 # 점프 시 최소 수직 속도
 const MAX_JUMP_VERTICAL_VELOCITY = -500.0 # 점프 시 최대 수직 속도
 const JUMP_HORIZONTAL_VELOCITY = 400.0 # 점프 시 수평 속도
 
+# 체력 관련
+@export var max_health = 100
+var current_health = 100
+
 var player = null
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -11,6 +15,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
 	randomize() # Initialize random number generator
+	current_health = max_health # 체력 초기화
 
 	player = get_tree().get_first_node_in_group("player")
 
@@ -52,3 +57,14 @@ func _on_jump_timer_timeout():
 		velocity.y = randf_range(MIN_JUMP_VERTICAL_VELOCITY, MAX_JUMP_VERTICAL_VELOCITY)
 	else:
 		pass # Cannot jump condition (silent)
+
+func take_damage(damage_amount):
+	current_health -= damage_amount
+	print("SlimeKing took ", damage_amount, " damage! Current health: ", current_health)
+	
+	if current_health <= 0:
+		die()
+
+func die():
+	print("SlimeKing has been defeated!")
+	queue_free() # 보스 제거
